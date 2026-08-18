@@ -23,6 +23,7 @@ resource "aws_iam_role_policy" "lambda" {
       { Effect = "Allow", Action = ["logs:CreateLogStream", "logs:PutLogEvents"], Resource = "${aws_cloudwatch_log_group.api.arn}:*" },
       { Effect = "Allow", Action = ["ssm:GetParameter", "ssm:GetParameters"], Resource = "arn:aws:ssm:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:parameter${var.ssm_prefix}/*" },
       { Effect = "Allow", Action = ["s3:PutObject", "s3:GetObject", "s3:DeleteObject"], Resource = "${aws_s3_bucket.data.arn}/*" },
+      { Effect = "Allow", Action = ["s3:ListBucket"], Resource = aws_s3_bucket.data.arn }, # without it a missing key is AccessDenied, not NoSuchKey
       { Effect = "Allow", Action = ["ses:SendEmail", "ses:SendTemplatedEmail"], Resource = "*" },
     ]
   })
