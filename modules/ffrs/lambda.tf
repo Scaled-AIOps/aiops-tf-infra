@@ -62,14 +62,28 @@ resource "aws_cloudwatch_event_rule" "outbox" {
 }
 
 resource "aws_cloudwatch_event_target" "outbox" {
-  rule = aws_cloudwatch_event_rule.outbox.name
-  arn  = aws_lambda_function.api.arn
+  rule  = aws_cloudwatch_event_rule.outbox.name
+  arn   = aws_lambda_function.api.arn
+  input = jsonencode({ job = "drain_outbox" })
+}
+
+# Weekly FFRS metrics report (Monday 07:00 UTC) → GitHub issue
+resource "aws_cloudwatch_event_rule" "weekly" {
+  name                = "${var.name}-weekly-report"
+  schedule_expression = "cron(0 7 ? * MON *)"
+}
+
+resource "aws_cloudwatch_event_target" "weekly" {
+  rule  = aws_cloudwatch_event_rule.weekly.name
+  arn   = aws_lambda_function.api.arn
+  input = jsonencode({ job = "weekly_report" })
 }
 
 resource "aws_lambda_permission" "events" {
-  statement_id  = "AllowEventBridge"
+  for_each      = { outbox = aws_cloudwatch_event_rule.outbox.arn, weekly = aws_cloudwatch_event_rule.weekly.arn }
+  statement_id  = "AllowEventBridge-${each.key}"
   action        = "lambda:InvokeFunction"
   function_name = aws_lambda_function.api.function_name
   principal     = "events.amazonaws.com"
-  source_arn    = aws_cloudwatch_event_rule.outbox.arn
+  source_arn    = each.value
 }
