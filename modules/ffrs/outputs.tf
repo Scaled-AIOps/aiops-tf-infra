@@ -11,8 +11,8 @@ output "lambda_function_name" {
   value = aws_lambda_function.api.function_name
 }
 
-output "screenshot_bucket" {
-  value = aws_s3_bucket.screenshots.bucket
+output "data_bucket" {
+  value = aws_s3_bucket.data.bucket
 }
 
 # Add these at GoDaddy to verify SES sending
