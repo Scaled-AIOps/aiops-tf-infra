@@ -1,4 +1,4 @@
-# Copy to terraform.tfvars (gitignored). Production values as of 2026-08-18:
+# Copy to terraform.tfvars (gitignored) and set the values for your deployment.
 enable_ffrs      = true
-ffrs_alert_email = "kumar.butcha@gmail.com"
+ffrs_alert_email = "maintainers@example.org"  # set to the maintainer inbox
 # ffrs_github_repo defaults to Scaled-AIOps/feedback
