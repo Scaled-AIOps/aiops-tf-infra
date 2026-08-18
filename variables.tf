@@ -21,3 +21,15 @@ variable "ffrs_lambda_zip" {
   type        = string
   default     = "../ffrs-api/dist/handler.zip"
 }
+
+variable "ffrs_alert_email" {
+  description = "Maintainer inbox for FFRS alerts"
+  type        = string
+  default     = ""
+}
+
+variable "ffrs_github_repo" {
+  description = "owner/repo for FFRS issues, e.g. Scaled-AIOps/feedback"
+  type        = string
+  default     = "Scaled-AIOps/feedback"
+}

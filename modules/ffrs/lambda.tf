@@ -45,7 +45,10 @@ resource "aws_lambda_function" "api" {
       SSM_PREFIX        = var.ssm_prefix
       SCREENSHOT_BUCKET = aws_s3_bucket.screenshots.bucket
       ALLOWED_ORIGINS   = join(",", var.allowed_origins)
+      SITE_URL          = "https://www.${var.domain_name}"
       FROM_EMAIL        = "feedback@${var.domain_name}"
+      ALERT_EMAIL       = var.alert_email
+      GITHUB_REPO       = var.github_repo
     }
   }
 

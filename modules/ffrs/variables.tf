@@ -30,3 +30,15 @@ variable "screenshot_retention_days" {
   type    = number
   default = 90
 }
+
+variable "alert_email" {
+  description = "Maintainer inbox for new-feedback alerts (empty disables the alert effect)"
+  type        = string
+  default     = ""
+}
+
+variable "github_repo" {
+  description = "owner/repo where issues are filed (empty disables the GitHub effect); token lives in SSM at <ssm_prefix>/github_token"
+  type        = string
+  default     = ""
+}

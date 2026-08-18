@@ -4,6 +4,8 @@ module "ffrs" {
   source      = "./modules/ffrs"
   domain_name = var.domain_name
   lambda_zip  = var.ffrs_lambda_zip
+  alert_email = var.ffrs_alert_email
+  github_repo = var.ffrs_github_repo
 }
 
 output "ffrs" {
