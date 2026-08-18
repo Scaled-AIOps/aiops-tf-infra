@@ -11,7 +11,7 @@ variable "domain_name" {
 }
 
 variable "enable_ffrs" {
-  description = "Provision the Fast Feedback Response System (API, storage, SES, CloudFront /api/* behaviour). false removes it all."
+  description = "Provision the Fast Feedback Resolution System (API, storage, SES, CloudFront /api/* behaviour). false removes it all."
   type        = bool
   default     = false
 }

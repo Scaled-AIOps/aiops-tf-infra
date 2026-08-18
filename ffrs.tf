@@ -1,4 +1,4 @@
-# Fast Feedback Response System — fully detachable via var.enable_ffrs
+# Fast Feedback Resolution System — fully detachable via var.enable_ffrs
 module "ffrs" {
   count       = var.enable_ffrs ? 1 : 0
   source      = "./modules/ffrs"
