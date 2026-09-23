@@ -46,6 +46,7 @@ resource "aws_lambda_function" "api" {
       SSM_PREFIX     = var.ssm_prefix
       DATA_BUCKET    = aws_s3_bucket.data.bucket
       DEFAULT_TENANT = var.default_tenant
+      SERVICE_URL    = "https://${local.host}"
       FROM_EMAIL     = "feedback@${var.domain_name}"
     }
   }
