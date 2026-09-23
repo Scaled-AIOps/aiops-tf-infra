@@ -6,4 +6,4 @@ Terraform for scaledaiops.org hosting (S3 + CloudFront + ACM) and the optional *
 terraform init && terraform fmt -recursive && terraform validate && terraform plan   # confirm before apply
 ```
 
-`terraform.tfvars` is gitignored — see `terraform.tfvars.example` for the production values (`enable_ffrs = true` since 2026-08-18). FFRS secrets live in SSM `/ffrs/*` (`github_token`, `github_webhook_secret`, `turnstile_secret`, `enabled` kill switch); the Lambda zip comes from `../ffrs-api/dist/handler.zip` (`npm run package`).
+`terraform.tfvars` is gitignored — see `terraform.tfvars.example` for the production values (`enable_ffrs = true` since 2026-08-18). FFRS settings live in SSM: `/ffrs/enabled` (kill switch) and one `/ffrs/tenants/<slug>/*` set per site (managed with `ffrs-api/scripts/tenant.sh`); the Lambda zip comes from `../ffrs-api/dist/handler.zip` (`npm run package`).
