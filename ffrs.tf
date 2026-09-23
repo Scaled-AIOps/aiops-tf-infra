@@ -13,7 +13,6 @@ output "ffrs" {
     distribution_domain = module.ffrs[0].distribution_domain # CNAME ffrs.<domain> → this, at GoDaddy
     distribution_id     = module.ffrs[0].distribution_id
     assets_bucket       = module.ffrs[0].assets_bucket
-    api_endpoint        = module.ffrs[0].api_endpoint
     lambda              = module.ffrs[0].lambda_function_name
     ses_dns_records     = module.ffrs[0].ses_dns_records
   } : null

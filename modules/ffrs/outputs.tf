@@ -1,12 +1,3 @@
-output "api_origin_domain" {
-  description = "API Gateway hostname for the site's legacy CloudFront /api/* origin"
-  value       = replace(aws_apigatewayv2_api.api.api_endpoint, "https://", "")
-}
-
-output "api_endpoint" {
-  value = aws_apigatewayv2_api.api.api_endpoint
-}
-
 output "endpoint" {
   description = "The service host every tenant embeds"
   value       = "https://${local.host}"

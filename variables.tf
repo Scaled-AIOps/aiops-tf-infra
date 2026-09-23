@@ -11,7 +11,7 @@ variable "domain_name" {
 }
 
 variable "enable_ffrs" {
-  description = "Provision the Fast Feedback Resolution System (API, storage, SES, ffrs.<domain> host, CloudFront /api/* behaviour). false removes it all. Tenants are configured in SSM, see ffrs-api scripts/tenant.sh."
+  description = "Provision the Fast Feedback Resolution System (Lambda, storage, SES, the ffrs.<domain> host). false removes it all. Tenants are configured in SSM, see ffrs-api scripts/tenant.sh."
   type        = bool
   default     = false
 }

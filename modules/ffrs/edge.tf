@@ -1,6 +1,6 @@
 # The service's own host: ffrs.<domain>. A Lambda Function URL behind CloudFront (no per-request
 # API Gateway cost), plus a small assets bucket for widget.js, cached at the edge so page views
-# never wake the Lambda. The API Gateway in api.tf stays until every embedder has moved here.
+# never wake the Lambda.
 
 # Public on purpose. An origin access control would make CloudFront SigV4-sign each request, and
 # Lambda then demands the caller's body hash in x-amz-content-sha256 — which a browser posting
@@ -95,6 +95,17 @@ resource "aws_cloudfront_distribution" "service" {
     domain_name              = aws_s3_bucket.assets.bucket_regional_domain_name
     origin_id                = "assets"
     origin_access_control_id = aws_cloudfront_origin_access_control.assets.id
+  }
+
+  # The widget's on-demand dependencies (html2canvas for screenshots).
+  ordered_cache_behavior {
+    path_pattern           = "/vendor/*"
+    target_origin_id       = "assets"
+    viewer_protocol_policy = "redirect-to-https"
+    allowed_methods        = ["GET", "HEAD"]
+    cached_methods         = ["GET", "HEAD"]
+    compress               = true
+    cache_policy_id        = "658327ea-f89d-4fab-a63d-7e88639e58f6" # Managed-CachingOptimized
   }
 
   ordered_cache_behavior {
