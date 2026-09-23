@@ -1,4 +1,3 @@
-# Copy to terraform.tfvars (gitignored) and set the values for your deployment.
-enable_ffrs      = true
-ffrs_alert_email = "maintainers@example.org"  # set to the maintainer inbox
-# ffrs_github_repo defaults to Scaled-AIOps/feedback
+# Copy to terraform.tfvars (gitignored).
+enable_ffrs = true
+# Per-site settings (tracker repo, token, origins, alert email) are SSM tenants — see ffrs-api scripts/tenant.sh.

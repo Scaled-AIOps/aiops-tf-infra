@@ -1,10 +1,28 @@
 output "api_origin_domain" {
-  description = "API Gateway hostname for the CloudFront /api/* origin"
+  description = "API Gateway hostname for the site's legacy CloudFront /api/* origin"
   value       = replace(aws_apigatewayv2_api.api.api_endpoint, "https://", "")
 }
 
 output "api_endpoint" {
   value = aws_apigatewayv2_api.api.api_endpoint
+}
+
+output "endpoint" {
+  description = "The service host every tenant embeds"
+  value       = "https://${local.host}"
+}
+
+output "distribution_domain" {
+  description = "CNAME target for ffrs.<domain> at the registrar"
+  value       = aws_cloudfront_distribution.service.domain_name
+}
+
+output "distribution_id" {
+  value = aws_cloudfront_distribution.service.id
+}
+
+output "assets_bucket" {
+  value = aws_s3_bucket.assets.bucket
 }
 
 output "lambda_function_name" {
@@ -22,7 +40,7 @@ output "ses_dns_records" {
       "dkim_${i + 1}" => { type = "CNAME", name = "${t}._domainkey.${var.domain_name}", value = "${t}.dkim.amazonses.com" }
     },
     {
-      mail_from_mx  = { type = "MX", name = "mail.${var.domain_name}", value = "10 feedback-smtp.${data.aws_region.current.name}.amazonses.com" }
+      mail_from_mx  = { type = "MX", name = "mail.${var.domain_name}", value = "10 feedback-smtp.${data.aws_region.current.region}.amazonses.com" }
       mail_from_spf = { type = "TXT", name = "mail.${var.domain_name}", value = "v=spf1 include:amazonses.com ~all" }
     }
   )

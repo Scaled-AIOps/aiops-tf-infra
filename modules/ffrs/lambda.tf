@@ -21,7 +21,7 @@ resource "aws_iam_role_policy" "lambda" {
     Version = "2012-10-17"
     Statement = [
       { Effect = "Allow", Action = ["logs:CreateLogStream", "logs:PutLogEvents"], Resource = "${aws_cloudwatch_log_group.api.arn}:*" },
-      { Effect = "Allow", Action = ["ssm:GetParameter", "ssm:GetParameters"], Resource = "arn:aws:ssm:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:parameter${var.ssm_prefix}/*" },
+      { Effect = "Allow", Action = ["ssm:GetParameter", "ssm:GetParameters", "ssm:GetParametersByPath"], Resource = "arn:aws:ssm:${data.aws_region.current.region}:${data.aws_caller_identity.current.account_id}:parameter${var.ssm_prefix}/*" },
       { Effect = "Allow", Action = ["s3:PutObject", "s3:GetObject", "s3:DeleteObject"], Resource = "${aws_s3_bucket.data.arn}/*" },
       { Effect = "Allow", Action = ["s3:ListBucket"], Resource = aws_s3_bucket.data.arn }, # without it a missing key is AccessDenied, not NoSuchKey
       { Effect = "Allow", Action = ["ses:SendEmail", "ses:SendTemplatedEmail"], Resource = "*" },
@@ -40,16 +40,13 @@ resource "aws_lambda_function" "api" {
   memory_size      = 512
   timeout          = 15
 
+  # Everything per site (tracker, token, origins, branding, alerts) is a tenant in SSM, not env.
   environment {
     variables = {
-      SITE_NAME       = var.domain_name
-      SSM_PREFIX      = var.ssm_prefix
-      DATA_BUCKET     = aws_s3_bucket.data.bucket
-      ALLOWED_ORIGINS = join(",", var.allowed_origins)
-      SITE_URL        = "https://www.${var.domain_name}"
-      FROM_EMAIL      = "feedback@${var.domain_name}"
-      ALERT_EMAIL     = var.alert_email
-      GITHUB_REPO     = var.github_repo
+      SSM_PREFIX     = var.ssm_prefix
+      DATA_BUCKET    = aws_s3_bucket.data.bucket
+      DEFAULT_TENANT = var.default_tenant
+      FROM_EMAIL     = "feedback@${var.domain_name}"
     }
   }
 

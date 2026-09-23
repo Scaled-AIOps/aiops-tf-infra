@@ -11,7 +11,7 @@ variable "domain_name" {
 }
 
 variable "enable_ffrs" {
-  description = "Provision the Fast Feedback Resolution System (API, storage, SES, CloudFront /api/* behaviour). false removes it all."
+  description = "Provision the Fast Feedback Resolution System (API, storage, SES, ffrs.<domain> host, CloudFront /api/* behaviour). false removes it all. Tenants are configured in SSM, see ffrs-api scripts/tenant.sh."
   type        = bool
   default     = false
 }
@@ -22,14 +22,3 @@ variable "ffrs_lambda_zip" {
   default     = "../ffrs-api/dist/handler.zip"
 }
 
-variable "ffrs_alert_email" {
-  description = "Maintainer inbox for FFRS alerts"
-  type        = string
-  default     = ""
-}
-
-variable "ffrs_github_repo" {
-  description = "owner/repo for FFRS issues, e.g. Scaled-AIOps/feedback"
-  type        = string
-  default     = "Scaled-AIOps/feedback"
-}
