@@ -36,3 +36,7 @@ output "dns_records" {
     }
   }
 }
+
+output "ci_deploy_user" {
+  value = aws_iam_user.ci_deploy.name
+}
